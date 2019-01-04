@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Movie Info App</title>
+	<link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css">
+	<style>
+	#movies img, #movie img{
+		max-width:100%;
+	}
+	@media(min-width:960px){
+		#movies .col-md-3 .well{
+			height: 390px;
+		}
+		#movies .col-md-3 img{
+			height:350px;
+		}
+	}
+</style>
+</head>
+<body>
+	<div class="container">
+		<div id="movie" class="well"></div>
+	</div>
+	<script>
+		// PARSE SELECTED MOVIE WITH THE HELP OF MOVIE ID
+
+		function getMovie(){
+			var movieId = sessionStorage.getItem('movieId');
+			var movieUrl = 'https://www.omdbapi.com/?i='+movieId+'&apikey=560f6744';
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', movieUrl, true);
+			xhr.onload = function(){
+				if(this.status == 200){
+					var movie = this.responseText;
+					var getData = JSON.parse(movie);
+					var result = document.getElementById('movie');
+					var output = document.createElement('div');
+					output.className = 'row';
+					output.innerHTML += `
+					<div class="row mt-5">
+					<div class="col-md-4">
+					<img src="${getData.Poster}" class="thumbnail">
+					</div>
+					<div class="col-md-8">
+					<h2>${getData.Title}</h2>
+					<ul class="list-group">
+					<li class="list-group-item"><strong>Genre:</strong> ${getData.Genre}</li>
+					<li class="list-group-item"><strong>Released:</strong> ${getData.Released}</li>
+					<li class="list-group-item"><strong>Rated:</strong> ${getData.Rated}</li>
+					<li class="list-group-item"><strong>IMDB Rating:</strong> ${getData.imdbRating}</li>
+					<li class="list-group-item"><strong>Director:</strong> ${getData.Director}</li>
+					<li class="list-group-item"><strong>Writer:</strong> ${getData.Writer}</li>
+					<li class="list-group-item"><strong>Actors:</strong> ${getData.Actors}</li>
+					</ul>
+					</div>
+					</div>
+					<div class="row">
+					<div class="well">
+					<h3 class="mt-5">Plot</h3>
+					${getData.Plot}
+					<hr>
+					<a href="http://imdb.com/title/${getData.imdbID}" target="_blank" class="btn btn-primary">View IMDB</a>
+					<a href="movieapp.html" class="btn btn-default">Go Back To Search</a>
+					</div>
+					</div>
+					`;
+					result.append(output);
+				}
+			}
+			xhr.send();
+		}
+		getMovie();
+	</script>
+</body>
+</html>

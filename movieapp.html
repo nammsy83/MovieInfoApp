@@ -4,45 +4,37 @@
 	<meta charset="UTF-8">
 	<title>Movie Info App</title>
 	<link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css">
+	<style>
+	.mb-7{margin-bottom: 70px;}
+	#movies img, #movie img{
+		width:100%;
+	}
+
+	@media(min-width:960px){
+		#movies .col-md-3 .well{
+			height: 390px;
+		}
+
+		#movies .col-md-3 img{
+			height:350px;
+		}
+	}
+
+</style>
 </head>
 <body>
-	<div class="container mt-5">
-		<h1 class="display-4 text-center">Movie Info App</h1>
-		<div id="result"></div>
+	<div class="container">
+		<div class="jumbotron">
+			<h3 class="text-center">Search For Any Movie</h3>
+			<form id="searchForm">
+				<input type="text" class="form-control" id="searchText" placeholder="Search Movies...">
+			</form>
+		</div>
 	</div>
-	<script>
 
-		var movieUrl = 'https://www.omdbapi.com/?i=tt3896198&apikey=560f6744';
-		var xhr = new XMLHttpRequest();
-		xhr.open('GET', movieUrl, true);
-		xhr.onload = function(){
-			if(this.status == 200){
-
-				var movieData  = this.responseText;
-				var getData = JSON.parse(movieData);
-				var result = document.getElementById('result');
-				var output = document.createElement('div');
-			
-					output.innerHTML +=
-					'<div class="row mt-5">' + 
-					'<div class="col-md-4"><img src="' + getData.Poster + '"</div></div>' +
-					'<div class="col-md-8">' +  
-					'<h3> ' + getData.Title + '</h3>' +
-					'<p class="mt-4"><b>Ratings:</b> ' + getData.Ratings[0].Value + '</p>' +
-					'<p><b>Year:</b> ' + getData.Year + '</p>' + 
-					'<p><b>Director:</b> ' + getData.Director + '</p>' +
-					'<p><b>Genre: </b> ' + getData.Genre + '</p>' +
-					'<p><b>Writer: </b> ' + getData.Writer + '</p>' +
-					'<p><b>Actors : </b> ' + getData.Actors + '</p>' +
-					'<p><b>Plot : </b> ' + getData.Plot + '</p>' +
-					'<p><b>Awards : </b> ' + getData.Awards + '</p>' +
-					'</div></div>';
-					result.append(output);
-				
-			}
-		}
-		xhr.send();
-		
-	</script>
+	<div class="container">
+		<div id="movies" class="row"></div>
+	</div>
+	<script src="main.js"></script>
 </body>
 </html>
